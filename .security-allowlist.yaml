@@ -1,0 +1,13 @@
+# Security Allowlist for aiSSEMBLE
+# Documents accepted risks with required audit trail fields.
+# Each entry MUST include: cve_id, justification, reviewer, approval_date, expiration_date
+#
+# Entries with expired expiration_date are automatically treated as non-allowlisted.
+
+allowed_cves: []
+  # Example entry:
+  # - cve_id: CVE-2024-XXXXX
+  #   justification: "False positive - this component is not exposed to untrusted input"
+  #   reviewer: "John Doe"
+  #   approval_date: "2025-01-15"
+  #   expiration_date: "2026-01-15"

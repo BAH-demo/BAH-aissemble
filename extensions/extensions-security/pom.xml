@@ -24,6 +24,7 @@
         <module>extensions-authzforce-attribute</module>
         <module>extensions-authzforce</module>
         <module>extensions-policy-decision-point-service</module>
+        <module>extensions-security-headers-java</module>
     </modules>
 
 </project>
