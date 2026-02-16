@@ -1,0 +1,32 @@
+[tool.poetry]
+packages = [
+    {include = "aissemble_security", from = "src"}
+]
+
+[project]
+name = "aissemble-foundation-security-python"
+version = "2.1.0.dev"
+description = "STIG-compliant security utilities for aiSSEMBLE (input validation, audit logging, secrets management)"
+authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
+requires-python = ">=3.9"
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+homepage = "https://github.com/boozallen/aissemble"
+documentation = "https://boozallen.github.io/aissemble"
+repository = "https://github.com/boozallen/aissemble"
+
+[tool.poetry.dependencies]
+cryptography = ">=43.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.0.0"
+pytest-cov = ">=4.0.0"
+ruff = "^0.11.7"
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"

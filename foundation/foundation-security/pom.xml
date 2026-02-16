@@ -17,6 +17,7 @@
 	<modules>
 		<module>aissemble-foundation-pdp-client-python</module>
 		<module>foundation-pdp-client-java</module>
+		<module>aissemble-foundation-security-python</module>
 	</modules>
 	
 </project>
