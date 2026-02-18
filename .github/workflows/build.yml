@@ -41,20 +41,24 @@ jobs:
         with:
           docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
           docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Load m2 repository cache # Manually caching .m2 repo as the setup-java caching isn't falling back to older caches
+      - name: Load m2 repository cache # S3-backed via runs-on/cache (bucket: aissemble-github-cache)
         id: cached-m2-repo
         uses: runs-on/cache/restore@v4
         if: ${{ ! github.event.schedule }}
         with:
           path: ~/.m2/repository
-          key: maven-repo-cache
-      - name: Load m2 build cache
+          key: maven-repo-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-repo-cache-
+      - name: Load m2 build cache # Local build cache at ~/.m2/build-cache (maxBuildsCached=1)
         id: cached-m2-build
         uses: runs-on/cache/restore@v4
         if: ${{ ! github.event.schedule }}
         with:
           path: ~/.m2/build-cache
-          key: maven-build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml', '**/src/**') }}
+          restore-keys: |
+            maven-build-cache-
       #NB: Not saving poetry cache on failure in case it's a failure caused by an in-flight python package release
       - name: Poetry cache
         id: cached-poetry
@@ -138,11 +142,11 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           path: ~/.m2/repository
-          key: maven-repo-cache
+          key: maven-repo-cache-${{ hashFiles('**/pom.xml') }}
       - name: Save m2 build cache
         id: save-m2-build
         uses: runs-on/cache/save@v4
         if: ${{ !cancelled() }}
         with:
           path: ~/.m2/build-cache
-          key: maven-build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml', '**/src/**') }}

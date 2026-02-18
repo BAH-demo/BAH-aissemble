@@ -17,5 +17,6 @@
 
     <modules>
         <module>test-mda-models</module>
+        <module>test-build-cache</module>
     </modules>
 </project>
