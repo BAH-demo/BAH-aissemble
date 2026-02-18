@@ -47,7 +47,7 @@
                 <dirName>../target/cucumber-reports</dirName>
                 <dirName>../target/surefire-reports</dirName>
                 <dirName>../target/failsafe-reports</dirName>
-                <dirName>../dist/*.whl</dirName>
+                <dirName>../dist/wheels</dirName>
                 <dirName>../.venv</dirName>
             </dirNames>
         </attachedOutputs>

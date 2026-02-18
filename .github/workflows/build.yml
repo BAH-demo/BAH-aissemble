@@ -142,9 +142,9 @@ jobs:
           echo "## Cache Metrics" >> $GITHUB_STEP_SUMMARY
           echo "| Cache | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| M2 Repository | ${{ steps.cached-m2-repo.outputs.cache-hit && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| M2 Build Cache | ${{ steps.cached-m2-build.outputs.cache-hit && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Poetry | ${{ steps.cached-poetry.outputs.cache-hit && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| M2 Repository | ${{ steps.cached-m2-repo.outputs.cache-hit == 'true' && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| M2 Build Cache | ${{ steps.cached-m2-build.outputs.cache-hit == 'true' && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Poetry | ${{ steps.cached-poetry.outputs.cache-hit == 'true' && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
       - name: Save m2 repository cache
         id: save-m2-repo
         uses: runs-on/cache/save@v4
