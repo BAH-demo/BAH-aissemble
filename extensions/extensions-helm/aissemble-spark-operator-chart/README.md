@@ -19,7 +19,7 @@ The following properties are specific to the aiSSEMBLE Spark Operator chart.
 |---------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------|
 | ivyCache.enabled          | Enable a shared Ivy cache for all Spark Applications (See [Shared Ivy Cache](#shared-ivy-cache))                | true                 |
 | ivyCache.name             | Name of the PersistentVolumeClaim (and potentially PersistentVolume if `ivyCache.storeCacheOnNode` is `true`)   | ivy-cache            |
-| ivyCache.size             | Size of the Ivy cache                                                                                           | 1Gi                  |
+| ivyCache.size             | Size of the Ivy cache                                                                                           | 20Gi                 |
 | ivyCache.accessModes      | [Access mode](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes) for the Ivy cache   | ReadWriteOnce        |
 | ivyCache.storageClass     | Storage class for the Ivy cache. Ignored if `ivyCache.storeCacheOnNode` is `true`                               |                      |
 | ivyCache.storeCacheOnNode | Store the shared Ivy cache on the Node and reuse it between deployments                                         | false                |
@@ -48,6 +48,25 @@ aissemble-spark-operator-chart:
 | serviceAccounts.spark.name         | Name for the spark service account | No                | spark                                                                                           |
 | serviceAccounts.sparkoperator.name | Name for the spark service account | No                | sparkoperator                                                                                   |
 | podSecurityContext                 | Pod security context               | No                | runAsUser: 185<br/>runAsGroup: 1000<br/>fsGroup: 1000<br/>fsGroupChangePolicy: "OnRootMismatch" |
+
+## Cache Sizing Recommendations
+
+The Ivy cache size should be configured based on your environment:
+
+| Environment | Recommended Size | Notes |
+|-------------|-----------------|-------|
+| Development | 10Gi            | Use `values-dev.yaml` which also enables node-based caching for faster iteration |
+| Production  | 20Gi (default)  | Use `values-prod.yaml` or the default values for production workloads |
+
+To use environment-specific values, pass the appropriate values file during installation:
+
+```bash
+# Development
+helm install spark-operator oci://ghcr.io/boozallen/aissemble-spark-operator-chart --version <AISSEMBLE-VERSION> -f values-dev.yaml
+
+# Production (default values are already optimized for production)
+helm install spark-operator oci://ghcr.io/boozallen/aissemble-spark-operator-chart --version <AISSEMBLE-VERSION>
+```
 
 # Shared Ivy Cache
 

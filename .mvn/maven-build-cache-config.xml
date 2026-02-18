@@ -31,8 +31,8 @@
         <enabled>true</enabled>
         <hashAlgorithm>SHA-256</hashAlgorithm>
         <validateXml>true</validateXml>
-        <remote enabled="false">
-            <url>http://host:port</url>
+        <remote enabled="true">
+            <url>s3://aissemble-maven-build-cache/cache</url>
         </remote>
         <attachedOutputs>
             <dirNames>
@@ -47,6 +47,8 @@
                 <dirName>../target/cucumber-reports</dirName>
                 <dirName>../target/surefire-reports</dirName>
                 <dirName>../target/failsafe-reports</dirName>
+                <dirName>../dist/wheels</dirName>
+                <dirName>../.venv</dirName>
             </dirNames>
         </attachedOutputs>
         <local>

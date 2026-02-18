@@ -18,7 +18,7 @@ tests:
           value: ivy-cache
       - equal:
           path: spec.resources.requests.storage
-          value: 5Gi
+          value: 20Gi
       - contains:
           path: spec.accessModes
           content:
@@ -43,7 +43,7 @@ tests:
           value: ivy-cache
       - equal:
           path: spec.capacity.storage
-          value: 5Gi
+          value: 20Gi
       - contains:
           path: spec.accessModes
           content:

@@ -47,14 +47,18 @@ jobs:
         if: ${{ ! github.event.schedule }}
         with:
           path: ~/.m2/repository
-          key: maven-repo-cache
+          key: maven-repo-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-repo-cache-
       - name: Load m2 build cache
         id: cached-m2-build
         uses: runs-on/cache/restore@v4
         if: ${{ ! github.event.schedule }}
         with:
           path: ~/.m2/build-cache
-          key: maven-build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-build-cache-
       #NB: Not saving poetry cache on failure in case it's a failure caused by an in-flight python package release
       - name: Poetry cache
         id: cached-poetry
@@ -132,17 +136,26 @@ jobs:
         if: always()
         run: |
           docker builder rm -f $DOCKER_BUILDER_NAME
+      - name: Report cache metrics
+        if: always()
+        run: |
+          echo "## Cache Metrics" >> $GITHUB_STEP_SUMMARY
+          echo "| Cache | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| M2 Repository | ${{ steps.cached-m2-repo.outputs.cache-hit == 'true' && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| M2 Build Cache | ${{ steps.cached-m2-build.outputs.cache-hit == 'true' && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Poetry | ${{ steps.cached-poetry.outputs.cache-hit == 'true' && 'HIT' || 'MISS' }} |" >> $GITHUB_STEP_SUMMARY
       - name: Save m2 repository cache
         id: save-m2-repo
         uses: runs-on/cache/save@v4
         if: ${{ !cancelled() }}
         with:
           path: ~/.m2/repository
-          key: maven-repo-cache
+          key: maven-repo-cache-${{ hashFiles('**/pom.xml') }}
       - name: Save m2 build cache
         id: save-m2-build
         uses: runs-on/cache/save@v4
         if: ${{ !cancelled() }}
         with:
           path: ~/.m2/build-cache
-          key: maven-build-cache
+          key: maven-build-cache-${{ hashFiles('**/pom.xml') }}

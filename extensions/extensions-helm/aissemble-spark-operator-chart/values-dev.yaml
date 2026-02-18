@@ -1,0 +1,4 @@
+ivyCache:
+  size: "10Gi"
+  storeCacheOnNode: true
+  cachePathOnNode: /var/lib/spark-ivy-cache
