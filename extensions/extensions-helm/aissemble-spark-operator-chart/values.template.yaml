@@ -4,7 +4,7 @@ ivyCache:
   # ivyCache.enabled creates a shared ivy cache for all Spark applications so Maven dependencies are not downloaded for each execution.
   enabled: true
   name: "ivy-cache"
-  size: "5Gi"
+  size: "20Gi"
   # ivyCache.accessModes of the cache. See https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes.
   accessModes:
     - ReadWriteOnce
