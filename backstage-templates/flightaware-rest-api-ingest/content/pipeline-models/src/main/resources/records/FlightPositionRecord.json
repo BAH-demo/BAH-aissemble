@@ -1,0 +1,64 @@
+{
+  "name": "FlightPositionRecord",
+  "package": "${{ values.javaPackage }}.record",
+  "description": "Record representing a point-in-time position report for a flight from the FlightAware AeroAPI.",
+  "fields": [
+    {
+      "name": "faFlightId",
+      "type": {
+        "name": "flightIdent",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Unique FlightAware flight identifier.",
+      "required": true
+    },
+    {
+      "name": "latitude",
+      "type": {
+        "name": "latitude",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Latitude in decimal degrees."
+    },
+    {
+      "name": "longitude",
+      "type": {
+        "name": "longitude",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Longitude in decimal degrees."
+    },
+    {
+      "name": "altitude",
+      "type": {
+        "name": "altitude",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Altitude in feet (hundreds)."
+    },
+    {
+      "name": "groundspeed",
+      "type": {
+        "name": "groundspeed",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Ground speed in knots."
+    },
+    {
+      "name": "heading",
+      "type": {
+        "name": "heading",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Track heading in degrees (0-360)."
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "name": "flightTimestamp",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Timestamp of the position report."
+    }
+  ]
+}

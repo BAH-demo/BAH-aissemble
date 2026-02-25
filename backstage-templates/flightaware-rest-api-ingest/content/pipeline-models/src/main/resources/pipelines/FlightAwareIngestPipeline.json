@@ -1,0 +1,45 @@
+{
+  "name": "FlightAwareIngestPipeline",
+  "package": "${{ values.javaPackage }}",
+  "description": "Data ingest pipeline that retrieves flight data from the FlightAware AeroAPI (${{ values.flightawareApiEndpoint }}) and persists it for downstream analytics.",
+  "type": {
+    "name": "data-flow",
+    "implementation": "data-delivery-pyspark"
+  },
+  {% if values.enableDataLineage %}"dataLineage": true,{% else %}"dataLineage": false,{% endif %}
+  "steps": [
+    {
+      "name": "FetchFlightData",
+      "type": "synchronous",
+      "alerting": {
+        {% if values.enableAlerting %}"enabled": true{% else %}"enabled": false{% endif %}
+      }
+    },
+    {
+      "name": "TransformFlightData",
+      "type": "synchronous",
+      "inbound": {
+        "type": "native"
+      },
+      "outbound": {
+        "type": "native"
+      },
+      "alerting": {
+        {% if values.enableAlerting %}"enabled": true{% else %}"enabled": false{% endif %}
+      }
+    },
+    {
+      "name": "PersistFlightData",
+      "type": "synchronous",
+      "inbound": {
+        "type": "native"
+      },
+      "persist": {
+        "type": "${{ values.persistenceType }}"
+      },
+      "alerting": {
+        {% if values.enableAlerting %}"enabled": true{% else %}"enabled": false{% endif %}
+      }
+    }
+  ]
+}

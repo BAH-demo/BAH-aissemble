@@ -1,0 +1,96 @@
+{
+  "name": "FlightAwareDictionary",
+  "package": "${{ values.javaPackage }}.dictionary",
+  "dictionaryTypes": [
+    {
+      "name": "flightIdent",
+      "simpleType": "string",
+      "validation": {
+        "maxLength": 20
+      }
+    },
+    {
+      "name": "icaoCode",
+      "simpleType": "string",
+      "validation": {
+        "maxLength": 4,
+        "minLength": 3,
+        "formats": ["[A-Z0-9]{3,4}"]
+      }
+    },
+    {
+      "name": "iataCode",
+      "simpleType": "string",
+      "validation": {
+        "maxLength": 3,
+        "minLength": 2,
+        "formats": ["[A-Z0-9]{2,3}"]
+      }
+    },
+    {
+      "name": "flightStatus",
+      "simpleType": "string"
+    },
+    {
+      "name": "aircraftType",
+      "simpleType": "string",
+      "validation": {
+        "maxLength": 10
+      }
+    },
+    {
+      "name": "latitude",
+      "simpleType": "double",
+      "validation": {
+        "minValue": "-90.0",
+        "maxValue": "90.0"
+      }
+    },
+    {
+      "name": "longitude",
+      "simpleType": "double",
+      "validation": {
+        "minValue": "-180.0",
+        "maxValue": "180.0"
+      }
+    },
+    {
+      "name": "altitude",
+      "simpleType": "integer"
+    },
+    {
+      "name": "groundspeed",
+      "simpleType": "integer"
+    },
+    {
+      "name": "heading",
+      "simpleType": "integer",
+      "validation": {
+        "minValue": "0",
+        "maxValue": "360"
+      }
+    },
+    {
+      "name": "flightTimestamp",
+      "simpleType": "timestamp"
+    },
+    {
+      "name": "airportCode",
+      "simpleType": "string",
+      "validation": {
+        "maxLength": 7
+      }
+    },
+    {
+      "name": "routeDistance",
+      "simpleType": "double"
+    },
+    {
+      "name": "operatorCode",
+      "simpleType": "string",
+      "validation": {
+        "maxLength": 10
+      }
+    }
+  ]
+}

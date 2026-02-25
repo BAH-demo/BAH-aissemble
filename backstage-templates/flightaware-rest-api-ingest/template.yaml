@@ -1,0 +1,191 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: flightaware-rest-api-ingest-pipeline
+  title: FlightAware REST API Data Ingest Pipeline
+  description: >
+    Scaffolds an aiSSEMBLE data-delivery pipeline that ingests flight data
+    from the FlightAware AeroAPI (v4) REST endpoint, transforms it with
+    PySpark, and persists the results to a configurable data store.
+  tags:
+    - aissemble
+    - data-delivery
+    - flightaware
+    - rest-api
+    - pyspark
+    - data-ingest
+  links:
+    - url: https://www.flightaware.com/aeroapi/portal
+      title: FlightAware AeroAPI Portal
+    - url: https://boozallen.github.io/aissemble/current/index.html
+      title: aiSSEMBLE Documentation
+spec:
+  owner: aissemble/aissemble-baseline-team
+  type: service
+
+  parameters:
+    - title: Project Information
+      required:
+        - componentName
+        - owner
+        - description
+      properties:
+        componentName:
+          title: Component Name
+          type: string
+          description: >
+            A unique name for this pipeline component (e.g. flightaware-ingest).
+            Used as the artifact and directory name.
+          pattern: "^[a-z][a-z0-9-]*$"
+          ui:autofocus: true
+        owner:
+          title: Owner
+          type: string
+          description: The Backstage team or user that owns this component.
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+        description:
+          title: Description
+          type: string
+          description: A short description of this pipeline.
+          default: FlightAware REST API data ingest pipeline powered by aiSSEMBLE.
+
+    - title: FlightAware API Configuration
+      required:
+        - flightawareApiEndpoint
+        - pollingIntervalSeconds
+      properties:
+        flightawareApiEndpoint:
+          title: AeroAPI Endpoint
+          type: string
+          description: >
+            The FlightAware AeroAPI v4 resource to ingest.
+          default: /flights/search
+          enum:
+            - /flights/search
+            - /flights/{flight_id}
+            - /flights/{ident}/position
+            - /airports/{airport_id}/flights
+            - /airports/{airport_id}/flights/departures
+            - /airports/{airport_id}/flights/arrivals
+            - /operators/{operator_id}/flights
+            - /history/flights/{ident}
+          enumNames:
+            - "Flight Search"
+            - "Flight by ID"
+            - "Flight Position"
+            - "Airport Flights (All)"
+            - "Airport Departures"
+            - "Airport Arrivals"
+            - "Operator Flights"
+            - "Historical Flights"
+        flightawareApiBaseUrl:
+          title: AeroAPI Base URL
+          type: string
+          description: Base URL for the FlightAware AeroAPI.
+          default: https://aeroapi.flightaware.com/aeroapi
+        pollingIntervalSeconds:
+          title: Polling Interval (seconds)
+          type: integer
+          description: How often (in seconds) to poll the FlightAware API.
+          default: 300
+          minimum: 60
+          maximum: 86400
+
+    - title: Pipeline Configuration
+      required:
+        - persistenceType
+        - javaPackage
+      properties:
+        persistenceType:
+          title: Persistence Target
+          type: string
+          description: Where to store the ingested flight data.
+          default: delta-lake
+          enum:
+            - delta-lake
+            - hive
+            - postgres
+            - elasticsearch
+          enumNames:
+            - Delta Lake
+            - Hive
+            - PostgreSQL
+            - Elasticsearch
+        javaPackage:
+          title: Java/Python Package
+          type: string
+          description: >
+            The base package namespace for generated code
+            (e.g. com.example.flightaware).
+          default: com.boozallen.aissemble.flightaware
+          pattern: "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*$"
+        enableDataLineage:
+          title: Enable Data Lineage
+          type: boolean
+          description: Track data lineage through the pipeline.
+          default: true
+        enableAlerting:
+          title: Enable Alerting
+          type: boolean
+          description: Enable alerting on pipeline step failures.
+          default: true
+
+    - title: Repository Configuration
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base Template
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          componentName: ${{ parameters.componentName }}
+          owner: ${{ parameters.owner }}
+          description: ${{ parameters.description }}
+          flightawareApiEndpoint: ${{ parameters.flightawareApiEndpoint }}
+          flightawareApiBaseUrl: ${{ parameters.flightawareApiBaseUrl }}
+          pollingIntervalSeconds: ${{ parameters.pollingIntervalSeconds }}
+          persistenceType: ${{ parameters.persistenceType }}
+          javaPackage: ${{ parameters.javaPackage }}
+          enableDataLineage: ${{ parameters.enableDataLineage }}
+          enableAlerting: ${{ parameters.enableAlerting }}
+          repoUrl: ${{ parameters.repoUrl }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        allowedHosts:
+          - github.com
+        repoUrl: ${{ parameters.repoUrl }}
+        description: ${{ parameters.description }}
+        defaultBranch: main
+        repoVisibility: private
+
+    - id: register
+      name: Register in Backstage Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in Backstage Catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

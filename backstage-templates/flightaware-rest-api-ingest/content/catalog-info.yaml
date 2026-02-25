@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.componentName }}
+  title: ${{ values.componentName }}
+  description: ${{ values.description }}
+  tags:
+    - aissemble
+    - data-delivery
+    - flightaware
+    - rest-api
+    - pyspark
+  annotations:
+    github.com/project-slug: ${{ values.repoUrl | projectSlug }}
+spec:
+  type: service
+  lifecycle: experimental
+  owner: ${{ values.owner }}
