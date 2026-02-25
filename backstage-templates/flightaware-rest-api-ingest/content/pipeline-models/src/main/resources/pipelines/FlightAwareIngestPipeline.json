@@ -6,13 +6,13 @@
     "name": "data-flow",
     "implementation": "data-delivery-pyspark"
   },
-  "dataLineage": ${{ values.enableDataLineage }},
+  {% if values.enableDataLineage %}"dataLineage": true,{% else %}"dataLineage": false,{% endif %}
   "steps": [
     {
       "name": "FetchFlightData",
       "type": "synchronous",
       "alerting": {
-        "enabled": ${{ values.enableAlerting }}
+        {% if values.enableAlerting %}"enabled": true{% else %}"enabled": false{% endif %}
       }
     },
     {
@@ -25,7 +25,7 @@
         "type": "native"
       },
       "alerting": {
-        "enabled": ${{ values.enableAlerting }}
+        {% if values.enableAlerting %}"enabled": true{% else %}"enabled": false{% endif %}
       }
     },
     {
@@ -38,7 +38,7 @@
         "type": "${{ values.persistenceType }}"
       },
       "alerting": {
-        "enabled": ${{ values.enableAlerting }}
+        {% if values.enableAlerting %}"enabled": true{% else %}"enabled": false{% endif %}
       }
     }
   ]

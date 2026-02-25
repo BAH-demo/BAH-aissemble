@@ -162,6 +162,7 @@ spec:
           javaPackage: ${{ parameters.javaPackage }}
           enableDataLineage: ${{ parameters.enableDataLineage }}
           enableAlerting: ${{ parameters.enableAlerting }}
+          repoUrl: ${{ parameters.repoUrl }}
 
     - id: publish
       name: Publish to GitHub
