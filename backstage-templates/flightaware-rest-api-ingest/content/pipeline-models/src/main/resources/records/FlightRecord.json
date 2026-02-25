@@ -1,0 +1,96 @@
+{
+  "name": "FlightRecord",
+  "package": "${{ values.javaPackage }}.record",
+  "description": "Record representing a flight retrieved from the FlightAware AeroAPI.",
+  "fields": [
+    {
+      "name": "faFlightId",
+      "type": {
+        "name": "flightIdent",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Unique FlightAware flight identifier.",
+      "required": true
+    },
+    {
+      "name": "ident",
+      "type": {
+        "name": "flightIdent",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Flight identifier (e.g. UAL123)."
+    },
+    {
+      "name": "operator",
+      "type": {
+        "name": "operatorCode",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "ICAO operator code."
+    },
+    {
+      "name": "flightNumber",
+      "type": {
+        "name": "flightIdent",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Airline flight number."
+    },
+    {
+      "name": "aircraftType",
+      "type": {
+        "name": "aircraftType",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "ICAO aircraft type designator."
+    },
+    {
+      "name": "origin",
+      "type": {
+        "name": "airportCode",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Origin airport ICAO or IATA code."
+    },
+    {
+      "name": "destination",
+      "type": {
+        "name": "airportCode",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Destination airport ICAO or IATA code."
+    },
+    {
+      "name": "departureTime",
+      "type": {
+        "name": "flightTimestamp",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Scheduled or actual departure time."
+    },
+    {
+      "name": "arrivalTime",
+      "type": {
+        "name": "flightTimestamp",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Scheduled or actual arrival time."
+    },
+    {
+      "name": "status",
+      "type": {
+        "name": "flightStatus",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Current flight status (e.g. Scheduled, En Route, Arrived)."
+    },
+    {
+      "name": "routeDistance",
+      "type": {
+        "name": "routeDistance",
+        "package": "${{ values.javaPackage }}.dictionary"
+      },
+      "description": "Filed route distance in miles."
+    }
+  ]
+}

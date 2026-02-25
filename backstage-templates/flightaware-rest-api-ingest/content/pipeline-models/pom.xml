@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>${{ values.javaPackage }}</groupId>
+        <artifactId>${{ values.componentName }}</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>${{ values.componentName }}-pipeline-models</artifactId>
+
+    <name>${{ values.componentName }}::Pipeline Models</name>
+    <description>
+        Contains aiSSEMBLE MDA metamodels for the FlightAware data ingest pipeline.
+        These JSON definitions drive code generation for pipeline scaffolding.
+    </description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <basePackage>src/main/</basePackage>
+                    <profile>aissemble-deployment-config</profile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
