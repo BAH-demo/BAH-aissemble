@@ -21,12 +21,10 @@ from pyspark.sql.types import (
     StructType,
     StructField,
     StringType,
-    DoubleType,
     IntegerType,
     BooleanType,
-    TimestampType,
 )
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class Ingest(IngestBase):
@@ -199,7 +197,7 @@ class Ingest(IngestBase):
         Converts a list of flight dictionaries from the FlightAware API response
         into a PySpark DataFrame with a well-defined schema.
         """
-        ingestion_ts = datetime.utcnow().isoformat()
+        ingestion_ts = datetime.now(timezone.utc).isoformat()
         rows = []
 
         for flight in flights:
