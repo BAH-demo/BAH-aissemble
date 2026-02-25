@@ -1,0 +1,28 @@
+{
+	"name": "FlightAwarePipeline",
+	"package": "com.boozallen.aissemble.pipeline.flightaware",
+	"type": {
+		"name": "data-flow",
+		"implementation": "data-delivery-pyspark",
+		"executionHelper": "airflow"
+	},
+	"dataLineage": false,
+	"steps": [
+		{
+			"name": "Ingest",
+			"type": "synchronous",
+			"persist": {
+				"type": "delta-lake"
+			},
+			"alerting": {
+				"enabled": false
+			},
+			"provenance": {
+				"enabled": false
+			},
+			"dataProfiling": {
+				"enabled": false
+			}
+		}
+	]
+}
