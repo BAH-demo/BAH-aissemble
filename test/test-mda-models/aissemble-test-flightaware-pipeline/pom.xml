@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.boozallen.aissemble</groupId>
+        <artifactId>test-mda-models</artifactId>
+        <version>2.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>aissemble-test-flightaware-pipeline</artifactId>
+    <packaging>habushu</packaging>
+
+    <name>aiSSEMBLE::Test::MDA::FlightAware Pipeline</name>
+    <description>Contains a FlightAware API data pipeline model for PySpark with Delta Lake persistence</description>
+
+    <build>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/</directory>
+                            <includes>
+                                <!-- clean up one-time generated files from test directory -->
+                                <include>tests/resources/apps/*</include>
+                                <include>target/</include>
+                            </includes>
+                        </fileset>
+                        <!-- clean up one-time generated files from the src/aissemble_test_flightaware_pipeline dir -->
+                        <fileset>
+                            <directory>${basedir}/src/aissemble_test_flightaware_pipeline/</directory>
+                            <excludes>
+                                <exclude>resources/pipelines/</exclude>
+                            </excludes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clean-one-time-generated-files</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.fermenter</groupId>
+                <artifactId>fermenter-mda</artifactId>
+                <configuration>
+                    <basePackage>aissemble_test_flightaware_pipeline</basePackage>
+                    <profile>data-delivery-pyspark</profile>
+                    <propertyVariables>
+                        <targetPipeline>FlightAwarePipeline</targetPipeline>
+                        <behaveFeature>flightaware_pipeline</behaveFeature>
+                        <aissembleVersion>${version.aissemble}</aissembleVersion>
+                    </propertyVariables>
+                </configuration>
+                <executions>
+                    <!-- As we're generating out the required Poetry/Habushu project
+                    configurations and structure through the utilized Fermenter MDA profile,
+                    generate all files during the validate phase *before* Habushu peforms
+                    Poetry specific intialization checks in the subsequent initialize phase -->
+                    <execution>
+                        <id>generate-python-sources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                    </execution>
+                    <!-- Override the default generated source code directory that is
+                     targeted by Fermenter's clean goal -->
+                    <execution>
+                        <id>clean-unmodifiable-generated-python-sources</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <generatedBasedir>${basedir}/src/aissemble_test_flightaware_pipeline/generated
+                            </generatedBasedir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.technologybrewery.habushu</groupId>
+                <artifactId>habushu-maven-plugin</artifactId>
+                <configuration>
+                    <behaveOptions>--tags ~integration</behaveOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <licenseFile>LICENSE</licenseFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-config-resources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/config</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/test/resources/config</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
+            <version>${version.scala}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>extensions-data-delivery-spark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>integration-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.technologybrewery.habushu</groupId>
+                        <artifactId>habushu-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

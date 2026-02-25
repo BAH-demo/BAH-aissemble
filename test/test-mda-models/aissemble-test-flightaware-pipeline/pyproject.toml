@@ -1,0 +1,44 @@
+# GENERATED STUB - PLEASE ***DO*** MODIFY
+# Generated from: templates/data-delivery-pyspark/pyproject.toml.vm
+
+[project]
+name = "aissemble-test-flightaware-pipeline"
+version = "2.1.0.dev"
+description = "FlightAware API data pipeline with PySpark and Delta Lake persistence"
+authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
+requires-python = ">=3.9"
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+homepage = "https://github.com/boozallen/aissemble"
+documentation = "https://boozallen.github.io/aissemble"
+repository = "https://github.com/boozallen/aissemble"
+
+[tool.poetry]
+packages = [{include ="aissemble_test_flightaware_pipeline", from = "src"}]
+# We have to explicitly include all source not just generated as it's all git-ignored in the test modules
+include = [{path = "src/aissemble_test_flightaware_pipeline/generated/**/*.py", format = ["wheel", "sdist"]}]
+
+[tool.poetry.dependencies]
+aissemble-foundation-pdp-client-python = {path = "../../../foundation/foundation-security/aissemble-foundation-pdp-client-python", develop = true}
+aissemble-foundation-core-python = {path = "../../../foundation/aissemble-foundation-core-python", develop = true}
+aissemble-extensions-data-delivery-spark-py = {path = "../../../extensions/extensions-data-delivery/aissemble-extensions-data-delivery-spark-py", develop = true}
+krausening = ">=21"
+pyspark = "3.5.5"
+pyyaml = "^6.0"
+cryptography = ">=42.0.4"
+urllib3 = "^2.5.0"
+requests = "^2.31.0"
+
+[tool.poetry.group.dev.dependencies]
+behave = ">=1.2.6"
+nose = ">=1.3.7"
+kappa-maki = ">=1.0.1"
+ruff = "^0.11.7"
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"

@@ -19,6 +19,7 @@
         <module>test-data-delivery-spark-model-basic</module>
         <module>aissemble-test-data-delivery-pyspark-model</module>
         <module>aissemble-test-data-delivery-pyspark-model-basic</module>
+        <module>aissemble-test-flightaware-pipeline</module>
         <module>test-machine-learning-model-definition</module>
         <module>test-machine-learning-model</module>
         <module>test-machine-learning-base-model</module>
