@@ -1,0 +1,27 @@
+## GenAI Pipeline Configuration
+## Environment-specific overrides can be placed in overlay property files via Krausening.
+
+# LLM Provider Settings
+llm_provider=openai
+llm_model=gpt-4
+llm_api_base_url=https://api.openai.com/v1
+llm_api_key_env_var=LLM_API_KEY
+llm_temperature=0.7
+llm_max_tokens=2048
+
+# Embedding Settings
+embedding_model=text-embedding-ada-002
+embedding_dimensions=1536
+
+# Vector Store Settings
+vector_store_provider=in_memory
+vector_store_url=http://localhost:6333
+vector_store_collection=${pipeline.getSnakeCaseName()}
+
+# RAG Pipeline Settings
+rag_top_k=5
+rag_similarity_threshold=0.7
+
+# Document Chunking
+chunk_size=1000
+chunk_overlap=200

@@ -1,0 +1,59 @@
+"""
+Implementation of this GenAI RAG pipeline.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName}
+"""
+
+from ..generated.${pipeline.getSnakeCaseName()}_base import ${pipeline.capitalizedName}Base
+
+from genai_core import (
+    GenaiConfig,
+    LlmClient,
+    RestLlmClient,
+    EmbeddingClient,
+    RestEmbeddingClient,
+    VectorStoreClient,
+    InMemoryVectorStore,
+)
+
+
+class ${pipeline.capitalizedName}(${pipeline.capitalizedName}Base):
+    """
+    Implementation of the GenAI RAG pipeline.
+    Customize this class to configure your LLM provider, embedding model,
+    vector store, and prompt templates.
+    """
+
+    def __init__(self):
+        super().__init__()
+        # Implement any additional initialization for the pipeline.
+
+    def create_llm_client(self) -> LlmClient:
+        # TODO: Configure the LLM client for your provider.
+        # Default uses RestLlmClient which supports OpenAI-compatible APIs.
+        # Configure via genai.properties (llm_provider, llm_model, llm_api_base_url, etc.)
+        return RestLlmClient(self.config)
+
+    def create_embedding_client(self) -> EmbeddingClient:
+        # TODO: Configure the embedding client for your provider.
+        # Default uses RestEmbeddingClient which supports OpenAI-compatible APIs.
+        # Configure via genai.properties (embedding_model, etc.)
+        return RestEmbeddingClient(self.config)
+
+    def create_vector_store(self) -> VectorStoreClient:
+        # TODO: Replace with a production vector store (Qdrant, Milvus, pgvector, etc.)
+        # Default uses InMemoryVectorStore for development/testing.
+        # Configure via genai.properties (vector_store_provider, vector_store_url, etc.)
+        return InMemoryVectorStore(self.config)
+
+    def register_prompts(self) -> None:
+        # TODO: Register prompt templates for your use case.
+        # Example:
+        #   from genai_core import PromptTemplate
+        #   self.prompt_manager.register(PromptTemplate(
+        #       name="qa",
+        #       template="Answer the question based on the context.\n\nContext: $context\n\nQuestion: $question",
+        #   ))
+        pass

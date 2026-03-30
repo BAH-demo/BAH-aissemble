@@ -32,6 +32,7 @@
         <module>foundation-drift-detection</module>
         <module>aissemble-foundation-model-training-api</module>
         <module>aissemble-foundation-versioning-service</module>
+        <module>aissemble-foundation-genai-python</module>
         <module>foundation-upgrade</module>
         <module>foundation-configuration-store</module>
     </modules>

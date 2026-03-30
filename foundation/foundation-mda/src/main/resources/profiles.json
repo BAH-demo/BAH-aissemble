@@ -1767,5 +1767,41 @@
         "name": "valuesCIFile"
       }
     ]
+  },
+  {
+    "name": "genai-rag-pipeline",
+    "profileReferences": [
+      {
+        "name": "behave-support"
+      }
+    ],
+    "targetReferences": [
+      {
+        "name": "generatedBaseInit"
+      },
+      {
+        "name": "genaiRagPyProject"
+      },
+      {
+        "name": "genaiRagPipelineBase"
+      },
+      {
+        "name": "pythonPipelineImplInit"
+      },
+      {
+        "name": "genaiRagPipelineImpl"
+      },
+      {
+        "name": "genaiRagPipelineDriver"
+      },
+      {
+        "name": "genaiRagConfigResource"
+      }
+    ],
+    "familyReferences": [
+      {
+        "name": "pipelines"
+      }
+    ]
   }
 ]

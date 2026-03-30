@@ -1,0 +1,25 @@
+[tool.poetry]
+packages = [
+    {include = "${packageFolderName}", from = "src"},
+]
+
+[project]
+name = "${pipeline.getSnakeCaseName()}"
+version = "${version}"
+description = "GenAI RAG pipeline: ${pipeline.capitalizedName}"
+requires-python = ">=3.9"
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+aissemble-foundation-genai-python = "~${versionPrefix}"
+krausening = ">=21"
+
+[tool.poetry.group.dev.dependencies]
+behave = ">=1.2.6"
+nose = ">=1.3.7"
+kappa-maki = ">=1.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"

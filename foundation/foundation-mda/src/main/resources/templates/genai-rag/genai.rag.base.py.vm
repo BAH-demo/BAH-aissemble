@@ -1,0 +1,138 @@
+"""
+Base implementation of this GenAI RAG pipeline.
+
+GENERATED CODE - DO NOT MODIFY (add your customizations in ${pipeline.capitalizedName}).
+
+Generated from: ${templateName}
+"""
+from abc import ABC, abstractmethod
+from typing import List, Optional
+from krausening.logging import LogManager
+
+from genai_core import (
+    GenaiConfig,
+    LlmClient,
+    EmbeddingClient,
+    VectorStoreClient,
+    RagPipeline,
+    RagResponse,
+    Document,
+    PromptManager,
+    PromptTemplate,
+)
+
+
+class ${pipeline.capitalizedName}Base(ABC):
+    """
+    Base implementation of the GenAI RAG pipeline.
+    Provides document ingestion, retrieval-augmented generation,
+    and prompt management capabilities.
+    """
+    logger = LogManager.get_instance().get_logger('${pipeline.capitalizedName}')
+
+    def __init__(self):
+        """
+        Default initializations for the GenAI RAG pipeline.
+        """
+        self.config = GenaiConfig()
+        self.prompt_manager = PromptManager()
+        self._llm_client: Optional[LlmClient] = None
+        self._embedding_client: Optional[EmbeddingClient] = None
+        self._vector_store: Optional[VectorStoreClient] = None
+        self._rag_pipeline: Optional[RagPipeline] = None
+
+    @abstractmethod
+    def create_llm_client(self) -> LlmClient:
+        """
+        Create and return the LLM client for this pipeline.
+        Override to configure a specific provider (OpenAI, Azure, local, etc.).
+        """
+        pass
+
+    @abstractmethod
+    def create_embedding_client(self) -> EmbeddingClient:
+        """
+        Create and return the embedding client for this pipeline.
+        Override to configure a specific embedding provider.
+        """
+        pass
+
+    @abstractmethod
+    def create_vector_store(self) -> VectorStoreClient:
+        """
+        Create and return the vector store client for this pipeline.
+        Override to configure a specific vector database (Qdrant, Milvus, etc.).
+        """
+        pass
+
+    def register_prompts(self) -> None:
+        """
+        Register prompt templates used by this pipeline.
+        Override to add custom prompt templates.
+        """
+        pass
+
+    def initialize(self) -> None:
+        """
+        Initialize all pipeline components. Called before the pipeline runs.
+        """
+        self.logger.info('Initializing %s...' % type(self).__name__)
+        self._llm_client = self.create_llm_client()
+        self._embedding_client = self.create_embedding_client()
+        self._vector_store = self.create_vector_store()
+        self._rag_pipeline = RagPipeline(
+            llm_client=self._llm_client,
+            embedding_client=self._embedding_client,
+            vector_store=self._vector_store,
+            config=self.config,
+        )
+        self.register_prompts()
+
+    async def ingest_documents(self, documents: List[Document], collection: str = "") -> List[str]:
+        """
+        Ingest documents into the vector store for later retrieval.
+
+        Args:
+            documents: List of documents to ingest.
+            collection: Target collection name. Uses default from config if empty.
+
+        Returns:
+            List of stored document/chunk IDs.
+        """
+        if self._rag_pipeline is None:
+            self.initialize()
+        self.logger.info('Ingesting %d documents...' % len(documents))
+        return await self._rag_pipeline.ingest(documents, collection)
+
+    async def query(self, question: str, collection: str = "", top_k: int = 0) -> RagResponse:
+        """
+        Run a RAG query: retrieve relevant context and generate an answer.
+
+        Args:
+            question: The user's question.
+            collection: Vector store collection to search.
+            top_k: Number of context documents to retrieve.
+
+        Returns:
+            RagResponse with the generated answer and source documents.
+        """
+        if self._rag_pipeline is None:
+            self.initialize()
+        self.logger.info('Processing query: %s' % question[:80])
+        return await self._rag_pipeline.query(question, collection=collection, top_k=top_k)
+
+    async def run(self, question: str) -> RagResponse:
+        """
+        Runs the full RAG pipeline for a single question.
+        """
+        self.logger.info('Running %s...' % type(self).__name__)
+        if self._rag_pipeline is None:
+            self.initialize()
+
+        try:
+            response = await self.query(question)
+            self.logger.info('Complete')
+            return response
+        except Exception as error:
+            self.logger.error('Pipeline failed: %s' % str(error))
+            raise

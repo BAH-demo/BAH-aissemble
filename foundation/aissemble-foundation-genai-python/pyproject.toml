@@ -1,0 +1,35 @@
+[tool.poetry]
+packages = [
+    {include = "genai_core", from = "src"},
+]
+
+[project]
+name = "aissemble-foundation-genai-python"
+version = "2.1.0.dev"
+description = "Foundation library for building LLM/GenAI pipelines with aiSSEMBLE, providing LLM client abstractions, RAG pipeline support, vector store interfaces, and prompt management."
+authors = [{name = "aiSSEMBLE Baseline Community", email = "aissemble@bah.com"}]
+requires-python = ">=3.9"
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+homepage = "https://github.com/boozallen/aissemble"
+documentation = "https://boozallen.github.io/aissemble"
+repository = "https://github.com/boozallen/aissemble"
+
+[tool.poetry.dependencies]
+pydantic = ">=2.8.0"
+krausening = ">=21"
+aiohttp = ">=3.8.0"
+
+[tool.poetry.group.dev.dependencies]
+behave = ">=1.2.6"
+nose = ">=1.3.7"
+kappa-maki = ">=1.0.1"
+ruff = "^0.11.7"
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"
