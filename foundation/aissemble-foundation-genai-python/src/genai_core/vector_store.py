@@ -17,8 +17,11 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import abc
 import logging
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -33,7 +36,7 @@ class Document(BaseModel):
     content: str
     metadata: dict = Field(default_factory=dict)
     doc_id: str = ""
-    embedding: list[float] = Field(default_factory=list)
+    embedding: List[float] = Field(default_factory=list)
 
 
 class SearchResult(BaseModel):
@@ -52,7 +55,7 @@ class VectorStoreClient(metaclass=abc.ABCMeta):
 
     _config: GenaiConfig
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: GenaiConfig | None = None):  # noqa: FA100
         self._config = config or GenaiConfig()
 
     @classmethod
@@ -66,8 +69,8 @@ class VectorStoreClient(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     async def add_documents(
-        self, documents: list[Document], collection: str = ""
-    ) -> list[str]:
+        self, documents: List[Document], collection: str = ""
+    ) -> List[str]:
         """Add documents with their embeddings to the vector store.
 
         Args:
@@ -82,11 +85,11 @@ class VectorStoreClient(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     async def search(
         self,
-        query_embedding: list[float],
+        query_embedding: List[float],
         top_k: int = 0,
         collection: str = "",
-        filters: dict | None = None,
-    ) -> list[SearchResult]:
+        filters: Optional[Dict] = None,
+    ) -> List[SearchResult]:
         """Search for similar documents by embedding vector.
 
         Args:
@@ -102,7 +105,7 @@ class VectorStoreClient(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     async def delete_documents(
-        self, doc_ids: list[str], collection: str = ""
+        self, doc_ids: List[str], collection: str = ""
     ) -> int:
         """Delete documents from the vector store by ID.
 

@@ -17,7 +17,10 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import logging
+from typing import List, Optional
 
 from .genai_config import GenaiConfig
 from .vector_store import Document
@@ -32,10 +35,10 @@ class DocumentChunker:
     is performed at sentence boundaries when possible to preserve coherence.
     """
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: Optional[GenaiConfig] = None):
         self._config = config or GenaiConfig()
 
-    def chunk(self, document: Document) -> list[Document]:
+    def chunk(self, document: Document) -> List[Document]:
         """Split a document into chunks.
 
         Args:
@@ -102,7 +105,7 @@ class DocumentChunker:
         )
         return chunks
 
-    def chunk_many(self, documents: list[Document]) -> list[Document]:
+    def chunk_many(self, documents: List[Document]) -> List[Document]:
         """Split multiple documents into chunks.
 
         Args:

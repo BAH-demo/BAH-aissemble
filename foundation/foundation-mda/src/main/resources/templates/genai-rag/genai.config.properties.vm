@@ -2,7 +2,7 @@
 ## Environment-specific overrides can be placed in overlay property files via Krausening.
 
 # LLM Provider Settings
-llm_provider=${pipeline.capitalizedName}
+llm_provider=openai
 llm_model=gpt-4
 llm_api_base_url=https://api.openai.com/v1
 llm_api_key_env_var=LLM_API_KEY

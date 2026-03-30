@@ -23,9 +23,6 @@ repository = "https://github.com/boozallen/aissemble"
 pydantic = ">=2.8.0"
 krausening = ">=21"
 aiohttp = ">=3.8.0"
-urllib3 = "^2.5.0"
-
-aissemble-foundation-core-python = {path = "../aissemble-foundation-core-python/", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 behave = ">=1.2.6"

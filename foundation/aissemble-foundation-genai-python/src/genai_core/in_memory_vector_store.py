@@ -17,9 +17,12 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import logging
 import math
 import uuid
+from typing import Dict, List, Optional
 
 from .genai_config import GenaiConfig
 from .vector_store import Document, SearchResult, VectorStoreClient
@@ -27,7 +30,7 @@ from .vector_store import Document, SearchResult, VectorStoreClient
 logger = logging.getLogger(__name__)
 
 
-def _cosine_similarity(a: list[float], b: list[float]) -> float:
+def _cosine_similarity(a: List[float], b: List[float]) -> float:
     """Compute cosine similarity between two vectors."""
     if len(a) != len(b) or len(a) == 0:
         return 0.0
@@ -46,16 +49,16 @@ class InMemoryVectorStore(VectorStoreClient):
     cosine similarity search. Not intended for production use with large datasets.
     """
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: GenaiConfig | None = None):  # noqa: FA100
         super().__init__(config)
-        self._collections: dict[str, dict[str, Document]] = {}
+        self._collections: Dict[str, Dict[str, Document]] = {}
 
     def _resolve_collection(self, collection: str) -> str:
         return collection or self._config.vector_store_collection()
 
     async def add_documents(
-        self, documents: list[Document], collection: str = ""
-    ) -> list[str]:
+        self, documents: List[Document], collection: str = ""
+    ) -> List[str]:
         """Add documents to the in-memory store."""
         coll = self._resolve_collection(collection)
         if coll not in self._collections:
@@ -78,11 +81,11 @@ class InMemoryVectorStore(VectorStoreClient):
 
     async def search(
         self,
-        query_embedding: list[float],
+        query_embedding: List[float],
         top_k: int = 0,
         collection: str = "",
-        filters: dict | None = None,
-    ) -> list[SearchResult]:
+        filters: Optional[Dict] = None,
+    ) -> List[SearchResult]:
         """Search for similar documents using cosine similarity."""
         coll = self._resolve_collection(collection)
         k = top_k or self._config.rag_top_k()
@@ -104,7 +107,7 @@ class InMemoryVectorStore(VectorStoreClient):
         return results[:k]
 
     async def delete_documents(
-        self, doc_ids: list[str], collection: str = ""
+        self, doc_ids: List[str], collection: str = ""
     ) -> int:
         """Delete documents from the in-memory store."""
         coll = self._resolve_collection(collection)

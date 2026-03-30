@@ -17,7 +17,10 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import logging
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -43,8 +46,8 @@ class RagResponse(BaseModel):
     """Response from a RAG pipeline query."""
 
     answer: str
-    source_documents: list[SearchResult] = Field(default_factory=list)
-    llm_response: LlmResponse | None = None
+    source_documents: List[SearchResult] = Field(default_factory=list)
+    llm_response: Optional[LlmResponse] = None
 
 
 class RagPipeline:
@@ -60,7 +63,7 @@ class RagPipeline:
         llm_client: LlmClient,
         embedding_client: EmbeddingClient,
         vector_store: VectorStoreClient,
-        config: GenaiConfig | None = None,
+        config: Optional[GenaiConfig] = None,
         system_prompt: str = DEFAULT_RAG_SYSTEM_PROMPT,
     ):
         self._llm_client = llm_client
@@ -71,8 +74,8 @@ class RagPipeline:
         self._system_prompt = system_prompt
 
     async def ingest(
-        self, documents: list[Document], collection: str = ""
-    ) -> list[str]:
+        self, documents: List[Document], collection: str = ""
+    ) -> List[str]:
         """Ingest documents into the vector store.
 
         Documents are chunked, embedded, and stored in the configured
@@ -105,7 +108,7 @@ class RagPipeline:
         question: str,
         collection: str = "",
         top_k: int = 0,
-        filters: dict | None = None,
+        filters: Optional[Dict] = None,
         **llm_kwargs,
     ) -> RagResponse:
         """Run a RAG query: retrieve context, then generate an answer.
@@ -140,7 +143,7 @@ class RagPipeline:
             llm_response=llm_response,
         )
 
-    def _build_context(self, results: list[SearchResult]) -> str:
+    def _build_context(self, results: List[SearchResult]) -> str:
         """Build a context string from search results."""
         if not results:
             return "No relevant context found."
@@ -152,7 +155,7 @@ class RagPipeline:
 
     def _build_messages(
         self, question: str, context: str
-    ) -> list[LlmMessage]:
+    ) -> List[LlmMessage]:
         """Build the chat messages for the LLM."""
         system_content = self._system_prompt.replace("${context}", context)
         return [

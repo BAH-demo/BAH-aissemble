@@ -17,8 +17,11 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import logging
 import os
+from typing import Dict, List
 
 import aiohttp
 
@@ -37,7 +40,7 @@ class RestLlmClient(LlmClient):
     exposing an OpenAI-compatible chat completions endpoint.
     """
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: GenaiConfig | None = None):  # noqa: FA100
         super().__init__(config)
 
     def _get_api_key(self) -> str:
@@ -48,7 +51,7 @@ class RestLlmClient(LlmClient):
             logger.warning("LLM API key not found in environment variable '%s'", env_var)
         return api_key
 
-    def _build_headers(self) -> dict:
+    def _build_headers(self) -> Dict:
         """Build HTTP headers for the LLM API request."""
         headers = {
             "Content-Type": "application/json",
@@ -59,8 +62,8 @@ class RestLlmClient(LlmClient):
         return headers
 
     def _build_chat_payload(
-        self, messages: list[LlmMessage], **kwargs
-    ) -> dict:
+        self, messages: List[LlmMessage], **kwargs
+    ) -> Dict:
         """Build the JSON payload for a chat completions request."""
         payload = {
             "model": kwargs.get("model", self._config.llm_model()),
@@ -75,7 +78,7 @@ class RestLlmClient(LlmClient):
         messages = [LlmMessage(role=MessageRole.USER, content=prompt)]
         return await self.chat(messages, **kwargs)
 
-    async def chat(self, messages: list[LlmMessage], **kwargs) -> LlmResponse:
+    async def chat(self, messages: List[LlmMessage], **kwargs) -> LlmResponse:
         """Generate a completion from a multi-turn conversation."""
         url = f"{self._config.llm_api_base_url()}/chat/completions"
         headers = self._build_headers()

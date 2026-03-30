@@ -17,8 +17,11 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import abc
 import logging
+from typing import List
 
 from .genai_config import GenaiConfig
 from .llm_message import LlmMessage
@@ -36,7 +39,7 @@ class LlmClient(metaclass=abc.ABCMeta):
 
     _config: GenaiConfig
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: GenaiConfig | None = None):  # noqa: FA100
         self._config = config or GenaiConfig()
 
     @classmethod
@@ -62,7 +65,7 @@ class LlmClient(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    async def chat(self, messages: list[LlmMessage], **kwargs) -> LlmResponse:
+    async def chat(self, messages: List[LlmMessage], **kwargs) -> LlmResponse:
         """Generate a completion from a multi-turn conversation.
 
         Args:

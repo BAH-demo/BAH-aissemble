@@ -17,8 +17,11 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import logging
 import os
+from typing import Dict, List
 
 import aiohttp
 
@@ -35,7 +38,7 @@ class RestEmbeddingClient(EmbeddingClient):
     OpenAI-compatible embeddings endpoint.
     """
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: GenaiConfig | None = None):  # noqa: FA100
         super().__init__(config)
 
     def _get_api_key(self) -> str:
@@ -43,7 +46,7 @@ class RestEmbeddingClient(EmbeddingClient):
         env_var = self._config.llm_api_key_env_var()
         return os.environ.get(env_var, "")
 
-    def _build_headers(self) -> dict:
+    def _build_headers(self) -> Dict:
         """Build HTTP headers for the embeddings API request."""
         headers = {"Content-Type": "application/json"}
         api_key = self._get_api_key()
@@ -51,12 +54,12 @@ class RestEmbeddingClient(EmbeddingClient):
             headers["Authorization"] = f"Bearer {api_key}"
         return headers
 
-    async def embed(self, text: str) -> list[float]:
+    async def embed(self, text: str) -> List[float]:
         """Generate an embedding vector for a single text."""
         results = await self.embed_batch([text])
         return results[0]
 
-    async def embed_batch(self, texts: list[str]) -> list[list[float]]:
+    async def embed_batch(self, texts: List[str]) -> List[List[float]]:
         """Generate embedding vectors for multiple texts."""
         url = f"{self._config.llm_api_base_url()}/embeddings"
         headers = self._build_headers()

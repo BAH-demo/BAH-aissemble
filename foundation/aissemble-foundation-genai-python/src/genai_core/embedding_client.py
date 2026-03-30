@@ -17,8 +17,11 @@
 # limitations under the License.
 # #L%
 ###
+from __future__ import annotations
+
 import abc
 import logging
+from typing import List
 
 from .genai_config import GenaiConfig
 
@@ -34,7 +37,7 @@ class EmbeddingClient(metaclass=abc.ABCMeta):
 
     _config: GenaiConfig
 
-    def __init__(self, config: GenaiConfig | None = None):
+    def __init__(self, config: GenaiConfig | None = None):  # noqa: FA100
         self._config = config or GenaiConfig()
 
     @classmethod
@@ -47,7 +50,7 @@ class EmbeddingClient(metaclass=abc.ABCMeta):
         )
 
     @abc.abstractmethod
-    async def embed(self, text: str) -> list[float]:
+    async def embed(self, text: str) -> List[float]:
         """Generate an embedding vector for a single text.
 
         Args:
@@ -59,7 +62,7 @@ class EmbeddingClient(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    async def embed_batch(self, texts: list[str]) -> list[list[float]]:
+    async def embed_batch(self, texts: List[str]) -> List[List[float]]:
         """Generate embedding vectors for multiple texts.
 
         Args:
