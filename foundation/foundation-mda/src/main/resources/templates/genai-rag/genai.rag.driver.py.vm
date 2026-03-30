@@ -1,0 +1,30 @@
+"""
+Driver to run this GenAI RAG pipeline.
+
+GENERATED STUB CODE - PLEASE ***DO*** MODIFY
+
+Originally generated from: ${templateName}
+"""
+import asyncio
+import os
+import sys
+
+from ${packageFolderName}.impl.${pipeline.getSnakeCaseName()} import ${pipeline.capitalizedName}
+
+
+async def main():
+    """Main entry point for the GenAI RAG pipeline."""
+    pipeline = ${pipeline.capitalizedName}()
+
+    # Example: run a query
+    question = os.getenv("GENAI_QUERY", "What information is available?")
+    response = await pipeline.run(question)
+    print(f"Answer: {response.answer}")
+
+
+if __name__ == "__main__":
+    if os.getenv("MODE") == "no-op":
+        print("GenAI pipeline successfully registered.")
+        sys.exit()
+
+    asyncio.run(main())

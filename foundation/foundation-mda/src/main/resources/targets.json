@@ -2035,5 +2035,45 @@
     "generator": "com.boozallen.aiops.mda.generator.KubernetesGenerator",
     "metadataContext": "targeted",
     "overwritable": false
+  },
+  {
+    "name": "genaiRagPipelineBase",
+    "templateName": "templates/genai-rag/genai.rag.base.py.vm",
+    "outputFile": "${pipelineName}_base.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": true
+  },
+  {
+    "name": "genaiRagPipelineImpl",
+    "templateName": "templates/genai-rag/genai.rag.impl.py.vm",
+    "outputFile": "impl/${pipelineName}.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "genaiRagPipelineDriver",
+    "templateName": "templates/genai-rag/genai.rag.driver.py.vm",
+    "outputFile": "${pipelineName}_driver.py",
+    "generator": "com.boozallen.aiops.mda.generator.MachineLearningPipelineGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "genaiRagConfigResource",
+    "templateName": "templates/genai-rag/genai.config.properties.vm",
+    "outputFile": "krausening/base/genai.properties",
+    "generator": "com.boozallen.aiops.mda.generator.ModelAgnosticResourcesGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
+  },
+  {
+    "name": "genaiRagPyProject",
+    "templateName": "templates/genai-rag/genai.pyproject.toml.vm",
+    "outputFile": "pyproject.toml",
+    "generator": "com.boozallen.aiops.mda.generator.MlTrainingPyProjectGenerator",
+    "metadataContext": "targeted",
+    "overwritable": false
   }
 ]
