@@ -42,7 +42,7 @@ class PDPClient:
 
         authorize_request = {"jwt": token, "resource": resource, "action": action}
 
-        response = requests.post(self.url, json=authorize_request)
+        response = requests.post(self.url, json=authorize_request, timeout=30)
         decision = response.text
 
         return decision

@@ -82,4 +82,5 @@ class DriftRestClient:
             params=query_params,
             data=drift_data_input.model_dump_json(serialize_as_any=True),
             headers=data_headers,
+            timeout=30,
         )
