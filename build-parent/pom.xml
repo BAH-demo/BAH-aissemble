@@ -40,12 +40,12 @@
         <version.smallrye.graphql>2.9.1</version.smallrye.graphql>
         <version.smallrye.reactive.messaging>4.28.0</version.smallrye.reactive.messaging>
         <version.janino>3.1.12</version.janino>
-        <version.jackson>2.15.0</version.jackson>
+        <version.jackson>2.18.3</version.jackson>
         <version.jclouds>2.7.0</version.jclouds>
         <version.maven.core>3.8.6</version.maven.core>
         <version.mutiny>2.6.2</version.mutiny>
         <version.plexus.component>2.1.1</version.plexus.component>
-        <version.postgresql>42.5.5</version.postgresql>
+        <version.postgresql>42.7.5</version.postgresql>
         <version.resteasy>6.2.12.Final</version.resteasy>
         <version.vertx>4.5.18</version.vertx>
         <version.urllib3>^2.5.0</version.urllib3>
@@ -57,7 +57,7 @@
         <version.testcontainers>1.20.1</version.testcontainers>
         <version.vault>5.1.0</version.vault>
         <version.awaitility>4.0.3</version.awaitility>
-        <version.plexus.archiver>4.10.0</version.plexus.archiver>
+        <version.plexus.archiver>4.10.1</version.plexus.archiver>
         <version.plexus.util>3.5.1</version.plexus.util>
         <version.jackson.mapper.asl>1.9.3</version.jackson.mapper.asl>
         <version.jjwt>0.12.7</version.jjwt>
@@ -155,7 +155,7 @@
         <group.helm.plugin>org.technologybrewery</group.helm.plugin>
         <version.helm.plugin>6.14.3</version.helm.plugin>
         <version.helm.min>3.12.0</version.helm.min>
-        <version.snakeyaml>2.0</version.snakeyaml>
+        <version.snakeyaml>2.3</version.snakeyaml>
 
         <!-- OpenLineage java -->
         <!-- NB 1.31+ introduces a breaking change around an "optional" root facet. To better adapt to API changes, we
