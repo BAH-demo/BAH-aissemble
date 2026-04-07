@@ -28,7 +28,7 @@ class SparkRDBMSConfig:
     DEFAULT_JDBC_URL = "jdbc:postgresql://postgres:5432/db"
     DEFAULT_JDBC_DRIVER = "org.postgresql.Driver"
     DEFAULT_USER = "postgres"
-    DEFAULT_PASSWORD = "password"
+    DEFAULT_PASSWORD = ""
 
     def __init__(self):
         self.properties = PropertyManager.get_instance().get_properties(

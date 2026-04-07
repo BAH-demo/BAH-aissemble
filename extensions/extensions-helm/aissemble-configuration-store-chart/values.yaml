@@ -66,7 +66,7 @@ configMapProperties:
   baseConfigFiles:
     spark.properties: |-
       metastore.db.username=hive
-      metastore.db.password=hive
+      metastore.db.password=${METASTORE_DB_PASSWORD}
   envConfigFiles:
     spark.properties: |-
 

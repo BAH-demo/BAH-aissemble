@@ -175,7 +175,6 @@ public interface SecurityConfiguration extends KrauseningConfig {
      * @return keystore / private key password
      */
     @Key("keystore.password")
-    @DefaultValue("password")
     public String getKeyStorePassword();
 
     /**
@@ -207,7 +206,6 @@ public interface SecurityConfiguration extends KrauseningConfig {
      * @return generic JWT token
      */
     @Key("generic.jwt.token")
-    @DefaultValue("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE1MTYyMzkwMjJ9.qSxzXSZwDRsi3oqx3fBZ2ah8gOIsQZE0Lgkl0kjJ3Ko")
     public String getGenericJWTToken();
 
     /**
